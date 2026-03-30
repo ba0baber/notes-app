@@ -263,3 +263,39 @@ button[type="submit"]:active {
   #note-form { flex-direction: column; }
   button[type="submit"] { width: 100%; }
 }
+
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(247, 143, 179, 0.3);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  border-color: var(--pink);
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--pink), var(--lavender));
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+#app-content {
+  margin-top: 24px;
+}

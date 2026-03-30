@@ -31,25 +31,13 @@
         <h1>мои заметки</h1>
       </div>
       <p class="subtitle">всё важное в одном месте 🌸</p>
+      <nav class="nav-tabs">
+        <button id="home-btn" class="tab-btn active">🏠 главная</button>
+        <button id="about-btn" class="tab-btn">💜 о приложении</button>
+      </nav>
     </header>
 
-    <div class="card form-card">
-      <form id="note-form">
-        <input
-          type="text"
-          id="note-input"
-          placeholder="новая заметочка... ✍️"
-          autocomplete="off"
-          required
-        >
-        <button type="submit">добавить 💖</button>
-      </form>
-    </div>
-
-    <div id="notes-container">
-      <ul id="notes-list"></ul>
-      <p id="empty-msg">пока тут пусто... добавь первую заметку! 🌷</p>
-    </div>
+    <main id="app-content"></main>
   </div>
 
   <script src="app.js"></script>
