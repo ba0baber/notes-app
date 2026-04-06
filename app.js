@@ -94,6 +94,9 @@ loadContent('home');
 function initNotes() {
   const form = document.getElementById('note-form');
   const input = document.getElementById('note-input');
+  const reminderForm = document.getElementById('reminder-form');
+  const reminderText = document.getElementById('reminder-text');
+  const reminderTime = document.getElementById('reminder-time');
   const list = document.getElementById('notes-list');
 
   if (!form || !input || !list) {
@@ -115,21 +118,39 @@ function initNotes() {
     notes.forEach((note, index) => {
       const text = typeof note === 'object' ? note.text : note;
       const li = document.createElement('li');
+
+      let reminderInfo = '';
+      if (note.reminder) {
+        const date = new Date(note.reminder);
+        reminderInfo = '<br><small style="color:var(--lavender);">⏰ Напоминание: ' + date.toLocaleString() + '</small>';
+      }
+
       li.innerHTML =
         '<span class="note-dot"></span>' +
-        '<span class="note-text">' + escapeHtml(text) + '</span>' +
+        '<span class="note-text">' + escapeHtml(text) + reminderInfo + '</span>' +
         '<button class="delete-btn" data-index="' + index + '" title="Удалить">🗑️</button>';
       list.appendChild(li);
     });
   }
 
-  function addNote(text) {
+  function addNote(text, reminderTimestamp) {
     const notes = JSON.parse(localStorage.getItem('notes') || '[]');
-    notes.push({ id: Date.now(), text: text });
+    const newNote = { id: Date.now(), text: text, reminder: reminderTimestamp || null };
+    notes.push(newNote);
     localStorage.setItem('notes', JSON.stringify(notes));
     loadNotes();
-    console.log('emit newTask:', text);
-    socket.emit('newTask', { text: text, timestamp: Date.now() });
+
+    if (reminderTimestamp) {
+      console.log('emit newReminder:', text, reminderTimestamp);
+      socket.emit('newReminder', {
+        id: newNote.id,
+        text: text,
+        reminderTime: reminderTimestamp
+      });
+    } else {
+      console.log('emit newTask:', text);
+      socket.emit('newTask', { text: text, timestamp: Date.now() });
+    }
   }
 
   function deleteNote(index) {
@@ -146,6 +167,22 @@ function initNotes() {
       addNote(text);
       input.value = '';
       input.focus();
+    }
+  });
+
+  reminderForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const text = reminderText.value.trim();
+    const datetime = reminderTime.value;
+    if (text && datetime) {
+      const timestamp = new Date(datetime).getTime();
+      if (timestamp > Date.now()) {
+        addNote(text, timestamp);
+        reminderText.value = '';
+        reminderTime.value = '';
+      } else {
+        alert('Дата напоминания должна быть в будущем');
+      }
     }
   });
 

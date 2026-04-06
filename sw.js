@@ -1,5 +1,5 @@
-const CACHE_NAME = 'notes-cache-v7';
-const DYNAMIC_CACHE_NAME = 'dynamic-content-v2';
+const CACHE_NAME = 'notes-cache-v8';
+const DYNAMIC_CACHE_NAME = 'dynamic-content-v3';
 
 const ASSETS = [
   './',
@@ -41,6 +41,7 @@ self.addEventListener('fetch', function(event) {
   if (url.pathname.startsWith('/socket.io/')) return;
   if (url.pathname.startsWith('/subscribe')) return;
   if (url.pathname.startsWith('/unsubscribe')) return;
+  if (url.pathname.startsWith('/snooze')) return;
 
   if (url.pathname.startsWith('/content/')) {
     event.respondWith(
@@ -69,16 +70,50 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('push', function(event) {
-  var data = { title: 'Новое уведомление', body: '' };
+  var data = { title: 'Новое уведомление', body: '', reminderId: null };
   if (event.data) {
     data = event.data.json();
   }
+
   const options = {
     body: data.body,
     icon: './icons/android-chrome-512x512.png',
-    badge: './icons/favicon-32x32.png'
+    badge: './icons/favicon-32x32.png',
+    data: { reminderId: data.reminderId }
   };
+
+  if (data.reminderId) {
+    options.actions = [
+      { action: 'snooze', title: 'Отложить на 5 минут' }
+    ];
+  }
+
   event.waitUntil(
     self.registration.showNotification(data.title, options)
   );
+});
+
+self.addEventListener('notificationclick', function(event) {
+  const notification = event.notification;
+  const action = event.action;
+
+  if (action === 'snooze') {
+    const reminderId = notification.data.reminderId;
+    event.waitUntil(
+      fetch('http://localhost:3000/snooze?reminderId=' + reminderId, { method: 'POST' })
+        .then(function() {
+          console.log('Напоминание отложено');
+          notification.close();
+        })
+        .catch(function(err) {
+          console.error('Snooze failed:', err);
+          notification.close();
+        })
+    );
+  } else {
+    notification.close();
+    event.waitUntil(
+      clients.openWindow('http://localhost:3000')
+    );
+  }
 });

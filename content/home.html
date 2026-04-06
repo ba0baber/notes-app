@@ -11,7 +11,100 @@
   </form>
 </div>
 
-<div id="notes-container">
+<div class="card form-card" style="margin-top: 16px;">
+  <form id="reminder-form">
+    <input
+      type="text"
+      id="reminder-text"
+      placeholder="текст напоминания... ⏰"
+      autocomplete="off"
+      required
+    >
+    <input
+      type="datetime-local"
+      id="reminder-time"
+      required
+    >
+    <button type="submit" id="reminder-submit">добавить с напоминанием ⏰</button>
+  </form>
+</div>
+
+<div id="notes-container" style="margin-top: 16px;">
   <ul id="notes-list"></ul>
   <p id="empty-msg">пока тут пусто... добавь первую заметку! 🌷</p>
 </div>
+
+<style>
+#reminder-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#reminder-text {
+  flex: 1;
+  min-width: 200px;
+  border: 2px solid rgba(212, 165, 245, 0.4);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  background: var(--lavender-light);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#reminder-text::placeholder {
+  color: var(--text-light);
+}
+
+#reminder-text:focus {
+  border-color: var(--lavender);
+  box-shadow: 0 0 0 4px rgba(212, 165, 245, 0.2);
+}
+
+#reminder-time {
+  flex: 1;
+  min-width: 200px;
+  border: 2px solid rgba(212, 165, 245, 0.4);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  background: var(--lavender-light);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+#reminder-time:focus {
+  border-color: var(--lavender);
+  box-shadow: 0 0 0 4px rgba(212, 165, 245, 0.2);
+}
+
+#reminder-submit {
+  background: linear-gradient(135deg, var(--lavender), var(--pink));
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 22px;
+  font-size: 1rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px var(--shadow);
+  white-space: nowrap;
+}
+
+#reminder-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+#reminder-submit:active {
+  transform: translateY(0);
+}
+</style>
