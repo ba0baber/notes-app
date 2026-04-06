@@ -38,8 +38,14 @@
     </header>
 
     <main id="app-content"></main>
+
+    <footer class="push-footer">
+      <button id="enable-push" class="push-btn enable">🔔 включить уведомления</button>
+      <button id="disable-push" class="push-btn disable" style="display:none;">🔕 отключить уведомления</button>
+    </footer>
   </div>
 
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

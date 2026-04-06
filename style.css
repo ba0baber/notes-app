@@ -299,3 +299,97 @@ button[type="submit"]:active {
 #app-content {
   margin-top: 24px;
 }
+.push-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.push-btn {
+  border: none;
+  border-radius: 16px;
+  padding: 12px 22px;
+  font-size: 0.9rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.push-btn.enable {
+  background: linear-gradient(135deg, var(--lavender), var(--pink));
+  color: white;
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+.push-btn.disable {
+  background: rgba(255,255,255,0.8);
+  color: var(--text-light);
+  border: 2px solid rgba(247, 143, 179, 0.3);
+}
+
+.push-btn:hover {
+  transform: translateY(-2px);
+}
+
+.ws-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--pink), var(--lavender));
+  color: white;
+  padding: 14px 20px;
+  border-radius: 18px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+  max-width: 300px;
+}
+
+.ws-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-card h2 {
+  font-family: 'Pacifico', cursive;
+  color: var(--pink-dark);
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+}
+
+.about-card p {
+  color: var(--text-light);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.about-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about-list li {
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 600;
+  padding: 10px 14px;
+  background: var(--pink-light);
+  border-radius: 12px;
+}
+
+#empty-msg {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1rem;
+  padding: 32px 0;
+}
